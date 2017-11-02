@@ -1,0 +1,30 @@
+package shape;
+
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
+import java.awt.geom.Path2D.Float;
+
+public class Pencil extends AbstractPaintShape {
+    
+ 
+    public Pencil() {
+        super();
+        
+        myBasicShape = new GeneralPath(Path2D.WIND_EVEN_ODD);
+    }
+
+    public Shape getShape() {
+        
+        
+        ((Float) myBasicShape).moveTo(myStartPoint.getX(), myStartPoint.getY());
+        ((Float) myBasicShape).lineTo(myEndPoint.getX(), myEndPoint.getY());
+        setStartPoint(myEndPoint);
+       
+        return myBasicShape;
+    }
+    
+    public PaintShape createNew() {
+        return new Pencil();
+    }
+}

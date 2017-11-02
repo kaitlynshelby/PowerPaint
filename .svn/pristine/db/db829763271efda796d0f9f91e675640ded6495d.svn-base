@@ -1,0 +1,21 @@
+package shape;
+
+import java.awt.Shape;
+import java.awt.geom.Line2D;
+
+public class Line extends AbstractPaintShape {
+    
+    public Line() {
+        super();
+        
+    }
+    
+    public Shape getShape() {
+        myBasicShape = new Line2D.Double(myStartPoint, myEndPoint);
+        return myBasicShape;
+    }
+    
+    public PaintShape createNew() {
+        return new Line();
+    }
+}

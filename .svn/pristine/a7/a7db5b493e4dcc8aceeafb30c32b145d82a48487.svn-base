@@ -1,0 +1,75 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+package view;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.ButtonGroup;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+
+import model.EllipseListener;
+import model.LineListener;
+import model.PencilListener;
+import model.RectangleListener;
+import tools.PencilTool;
+
+
+
+/**
+ * A tool bar for the PowerPaint program.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.1
+ *
+ */
+public class ToolBar extends JToolBar { 
+
+
+    /** A generated serial number.*/
+    private static final long serialVersionUID = 304052708691137548L;
+    
+    /** The DrawingPanel this toolbar will communicate with.*/
+    private final DrawingPanel myPanel;
+    
+    /** A collection of tool actions to use with the tool selction menu. */
+    private final List<AbstractAction> myToolActions;
+    
+    
+                    
+    
+    /** 
+     * Constructs a tool bar with all buttons and default settings.
+     * 
+     * @param thePanel the DrawingPanel this toolbar communicates with.
+     */
+    public ToolBar(final DrawingPanel thePanel, final List<AbstractAction> theToolActions) {
+        super(); 
+
+        myPanel = thePanel;
+        myToolActions = theToolActions;
+   
+        setupButtons();
+        
+        myPanel.setCurrentTool(new PencilTool());
+        
+    }
+
+    private void setupButtons() {
+        final ButtonGroup btngrp = new ButtonGroup();
+
+        for (final AbstractAction actn : myToolActions) {
+            final JToggleButton btn = new JToggleButton(actn);
+            btn.addActionListener(actn);
+            btngrp.add(btn);
+            add(btn);
+        }
+        
+        btngrp.clearSelection();
+        btngrp.getElements().nextElement().setSelected(true);
+        
+    }
+}

@@ -1,0 +1,8 @@
+package model;
+
+public class Ellipse extends AbstractPaintShape{
+    
+    public Ellipse() {
+        
+    }
+}

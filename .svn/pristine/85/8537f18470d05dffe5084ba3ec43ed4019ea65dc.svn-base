@@ -1,0 +1,60 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+package model;
+
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+
+
+/**
+ * An ellipse-drawing tool.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ */
+public class EllipseTool extends AbstractPaintShape {
+
+    @Override
+    public Shape getShape() {
+        // Draws an ellipse starting from the standard upper-left corner starting point.
+        Ellipse2D.Double ellipse = new Ellipse2D.Double(getStartPoint().getX(), 
+                                getStartPoint().getY(), getWidth(), getHeight());
+    
+        // Draws an ellipse starting from the lower-right corner.
+        if (getEndPoint().getX() < getStartPoint().getX() && getEndPoint().getY() 
+                       < getStartPoint().getY()) {
+            ellipse = new Ellipse2D.Double(getEndPoint().getX(), getEndPoint().getY(), 
+                                          getWidth(), getHeight());
+        // Draws an ellipse starting from the upper-right corner.
+        } else if (getEndPoint().getX() < getStartPoint().getX()) {
+            ellipse = new Ellipse2D.Double(getEndPoint().getX(), getStartPoint().getY(), 
+                                          getWidth(), getHeight());
+        // Draws an ellipse starting from the lower-left corner.
+        } else if (getEndPoint().getY() < getStartPoint().getY()) {
+            ellipse = new Ellipse2D.Double(getStartPoint().getX(), getEndPoint().getY(), 
+                                          getWidth(), getHeight());
+        }
+        return ellipse;
+    }
+    
+    /**
+     * Calculates the width of a drawn ellipse.
+     * 
+     * @return the width of the ellipse.
+     */
+    private double getWidth() {
+        return Math.abs(getEndPoint().getX() - getStartPoint().getX());
+    }
+    
+    /**
+     * Calculates the height of a drawn ellipse.
+     * 
+     * @return the height of the ellipse.
+     */
+    private double getHeight() {
+        return Math.abs(getEndPoint().getY() - getStartPoint().getY());
+    }
+
+}
+
+

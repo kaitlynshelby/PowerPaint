@@ -1,0 +1,55 @@
+/**
+ * 
+ */
+package model;
+
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JColorChooser;
+import javax.swing.JMenuItem;
+
+import view.DrawingPanel;
+
+/**
+ * @author Kaitlyn
+ *
+ */
+public class ColorChangeAction implements ActionListener {
+
+    private ColorItemIcon myIcon;
+    
+    private Color myColor;
+    
+   
+    public ColorChangeAction(JMenuItem theMenuItem, Color theColor) {
+        
+        myColor = theColor;
+        myIcon = new ColorItemIcon(myColor);
+       
+        theMenuItem.setIcon(myIcon);
+        
+        
+        
+        
+    }
+    
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        myColor = JColorChooser.showDialog(null, "Select a color",
+                                               myColor);
+        
+       
+        
+        
+        myIcon.setColor(myColor);
+        
+        
+    }
+    
+    public Color getColor() {
+        return myColor;
+    }
+
+}

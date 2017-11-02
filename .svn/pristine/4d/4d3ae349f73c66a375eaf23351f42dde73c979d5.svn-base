@@ -1,0 +1,192 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
+
+import shape.PaintShape;
+import shape.Pencil;
+
+
+/**
+ * @author Kaitlyn
+ *
+ */
+public class DrawingPanel extends JPanel {
+    
+    /** */
+    private static final long serialVersionUID = -1966968065678487493L;
+    
+    private static final Dimension PREFERRED_SIZE = new Dimension(600, 300);
+    
+    public static final Color UW_PURPLE = new Color(51, 0, 111);
+    
+    public static final Color UW_GOLD = new Color(232, 211, 162);
+    
+    public static final float INITIAL_BRUSH_WIDTH = 1;
+    
+    private List<PaintShape> myPreviousShapes;
+    
+    private PaintShape myCurrentShape;
+    
+    private Color myDrawColor;
+    
+    private Color myFillColor;
+    
+    private boolean myFillState;
+    
+    private float myBrushWidth;
+    
+    public DrawingPanel() {
+        super();
+        myPreviousShapes = new ArrayList<>();
+     
+        setPreferredSize(PREFERRED_SIZE);
+        setBackground(Color.WHITE);
+        
+        myCurrentShape = new Pencil();
+        
+        myDrawColor = UW_PURPLE;
+        myFillColor = UW_GOLD;
+        myFillState = false;
+        myBrushWidth = INITIAL_BRUSH_WIDTH;
+       
+        final MouseInputAdapter listener = new DrawListener();
+        addMouseListener(listener);
+        addMouseMotionListener(listener);
+    }
+    
+    public void setCurrentShape(PaintShape theShape) {
+        myCurrentShape = theShape;
+    }
+    
+    public PaintShape getCurrentShape() {
+        return myCurrentShape;
+    }
+    
+    public void setFillState(boolean theState) {
+        myFillState = theState;
+        
+    }
+    
+    public boolean getFillState() {
+        return myFillState;
+    }
+    
+    public List<PaintShape> getPreviousShapes() {
+        return myPreviousShapes;
+    }
+    
+    @Override 
+    public void paintComponent(final Graphics theGraphics) {
+        super.paintComponent(theGraphics);
+        final Graphics2D g2d = (Graphics2D) theGraphics;
+        
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                             RenderingHints.VALUE_ANTIALIAS_ON);
+       
+
+        // Draw previous shapes
+        for (final PaintShape p : myPreviousShapes) {
+            if (p.getFillState()) {
+                g2d.setPaint(p.getFillColor());
+                g2d.fill(p.getShape());  
+            }
+            g2d.setStroke(new BasicStroke(p.getBrushWidth()));
+            g2d.setPaint(p.getDrawColor());
+            g2d.draw(p.getShape());
+           
+           
+        }
+        
+      
+        if (myFillState) {
+            g2d.setColor(myFillColor);
+            g2d.fill(myCurrentShape.getShape());
+        }
+        g2d.setStroke(new BasicStroke(myBrushWidth));
+        g2d.setPaint(myDrawColor);
+        g2d.draw(myCurrentShape.getShape());
+    }
+    
+
+    
+    public Color getDrawColor() {
+        return myDrawColor;
+    }
+
+    public void setDrawColor(Color theDrawColor) {
+        myDrawColor = theDrawColor;
+    }
+
+
+
+    public Color getFillColor() {
+        return myFillColor;
+    }
+
+    public void setFillColor(Color theFillColor) {
+        myFillColor = theFillColor;
+    }
+
+
+
+    private class DrawListener extends MouseInputAdapter {
+        
+        @Override
+        public void mouseEntered(final MouseEvent theEvent) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            
+        }
+        
+        @Override
+        public void mousePressed(final MouseEvent theEvent) {
+            setUpFields();
+            myCurrentShape.setStartPoint(theEvent.getPoint());
+            myCurrentShape.setEndPoint(theEvent.getPoint());
+            repaint();
+        }
+        
+        @Override 
+        public void mouseDragged(final MouseEvent theEvent) {
+            myCurrentShape.setEndPoint(theEvent.getPoint());
+            repaint();
+        }
+
+        @Override
+        public void mouseReleased(final MouseEvent theEvent) {
+            myCurrentShape.setFillState(myFillState);
+            myPreviousShapes.add(myCurrentShape);
+            myCurrentShape = myCurrentShape.createNew();  
+        }
+
+        private void setUpFields() {
+            myCurrentShape.setDrawColor(myDrawColor);
+            myCurrentShape.setFillColor(myFillColor);
+            myCurrentShape.setFillState(myFillState);
+            myCurrentShape.setBrushWidth(myBrushWidth);
+            
+        }
+        
+    }
+
+
+
+    public void setBrushWidth(float theWidth) {
+        myBrushWidth = theWidth;
+        
+    }  
+}

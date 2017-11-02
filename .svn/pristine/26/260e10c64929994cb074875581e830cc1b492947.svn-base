@@ -1,0 +1,55 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+
+package model;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+
+import tools.LineTool;
+import view.DrawingPanel;
+
+/**
+ * A listener which sets the current tool to a LineTool.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ *
+ */
+public class LineListener extends AbstractAction {
+
+    /** A generated serial ID number. */
+    private static final long serialVersionUID = 7512306225229021476L;
+    
+    /** The panel to change the current tool on. */
+    private final DrawingPanel myPanel;
+    
+    /** A line tool to use on the panel. */
+    private final LineTool myLine;
+    
+    /**
+     *  Constructs a LineListener with a LineTool to use and a DrawingPanel to use the LineTool
+     *  on. Also implements synchronization of buttons which use this listener.
+     *  
+     *  @param thePanel the DrawingPanel to change the tool on.
+     */
+    public LineListener(final String theName, final DrawingPanel thePanel) {
+        super(theName);
+        myPanel = thePanel;
+        myLine = new LineTool();
+        putValue(Action.SELECTED_KEY, true);
+    }
+    
+    /**
+     * Sets the current tool on the DrawingPanel to a LineTool.
+     */
+    @Override
+    public void actionPerformed(final ActionEvent theEvent) {
+        myPanel.setCurrentTool(myLine);
+        
+    }
+    
+}
+

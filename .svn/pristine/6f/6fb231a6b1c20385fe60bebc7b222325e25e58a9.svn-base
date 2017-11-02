@@ -1,0 +1,43 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+package tools;
+
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
+
+/**
+ * A pencil tool.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ *
+ */
+public class PencilTool extends AbstractPaintShape {
+    
+    /** A path shape which changes as the user moves the mouse. */
+    private final Path2D myPath;
+    
+    /**
+     * Constructs a pencil by initializing a new Path2D object.
+     */
+    public PencilTool() {
+        super();
+        myPath = new GeneralPath();
+        myPath.setWindingRule(Path2D.WIND_EVEN_ODD);
+    }
+    
+    @Override 
+    public Shape getShape() {
+       
+        myPath.moveTo(getStartPoint().getX(), getStartPoint().getY());
+        myPath.lineTo(getEndPoint().getX(), getEndPoint().getY());
+        myPath.moveTo(getEndPoint().getX(), getEndPoint().getY());
+        setStartPoint(getEndPoint());
+       
+        return myPath;
+        
+    }
+    
+
+}

@@ -1,0 +1,25 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+
+package shape;
+
+import java.awt.Shape;
+import java.awt.geom.Line2D;
+
+/**
+ * The PowerPaint GUI.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ */
+public class Line extends AbstractPaintShape {
+
+    public PaintShape createNew() {
+        return new Line();
+    }
+
+    public Shape getShape() {
+        myBasicShape = new Line2D.Double(myStartPoint, myEndPoint);
+        return myBasicShape;
+    }
+}

@@ -1,0 +1,43 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+package model;
+
+import java.awt.Point;
+import java.awt.Shape;
+
+/**
+ * An interface for all shapes that can be drawn in the PowerPaint program.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ *
+ */
+public interface PaintTool {
+    
+    /**
+     * Returns the shape that a PaintTool draws.
+     * 
+     * @return the shape to be drawn.
+     */
+    Shape getShape();
+    
+    
+    /** 
+     * Sets the initial point from which a shape is drawn.
+     * 
+     * @param thePoint the starting point to set.
+     */
+    void setStartPoint(Point thePoint);
+    
+    
+    /** 
+     * Sets the ending point from which a shape is drawn.
+     * 
+     * @param thePoint the ending point to set.
+     */
+    void setEndPoint(Point thePoint);
+
+   
+        
+
+}

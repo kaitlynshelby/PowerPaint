@@ -1,0 +1,97 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+
+package shape;
+
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Shape;
+
+/**
+ * The PowerPaint GUI.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ */
+public abstract class AbstractPaintShape implements PaintShape {
+
+    private static final Color UW_PURPLE = new Color(51, 0, 111);
+
+    private static final Color UW_GOLD = new Color(232, 211, 162);
+
+    private static final Point NO_POINT = new Point(-50, -50);
+
+    private static final Shape NO_SHAPE = null;
+
+    protected Shape myBasicShape;
+    protected Color myDrawColor;
+    protected Color myFillColor;
+    protected float myBrushWidth;
+    protected boolean myFillState;
+    protected Point myStartPoint;
+    protected Point myEndPoint;
+
+    public AbstractPaintShape() {
+        myBasicShape = NO_SHAPE;
+        myDrawColor = UW_PURPLE;
+        myFillColor = UW_GOLD;
+        myBrushWidth = 1;
+        myFillState = false;
+        myStartPoint = NO_POINT;
+        myEndPoint = NO_POINT;
+
+    }
+
+    /**
+     * Sets the color of the shape.
+     * 
+     * @param theColor the color to draw the shape in.
+     */
+    public void setDrawColor(final Color theColor) {
+        myDrawColor = theColor;
+    }
+
+    public void setFillColor(final Color theColor) {
+        myFillColor = theColor;
+    }
+
+    public void setBrushWidth(final float theWidth) {
+        myBrushWidth = theWidth;
+    }
+
+    public void setFillState(final boolean theFillState) {
+        myFillState = theFillState;
+    }
+
+    public void setBasicShape(final Shape theShape) {
+        myBasicShape = theShape;
+    }
+
+    public void setStartPoint(final Point thePoint) {
+        myStartPoint = thePoint;
+    }
+
+    public void setEndPoint(final Point thePoint) {
+        myEndPoint = thePoint;
+    }
+
+    public Shape getBasicShape() {
+        return myBasicShape;
+    }
+
+    public float getBrushWidth() {
+        return myBrushWidth;
+    }
+
+    public boolean isFilled() {
+        return myFillState;
+    }
+
+    public Color getFillColor() {
+        return myFillColor;
+    }
+
+    public Color getDrawColor() {
+        return myDrawColor;
+    }
+}

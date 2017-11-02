@@ -1,0 +1,23 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+package tools;
+
+import java.awt.Shape;
+import java.awt.geom.Line2D;
+
+/**
+ * A line-drawing tool.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ */
+public class LineTool extends AbstractPaintTool {
+
+
+    @Override
+    public Shape getShape() {
+        return new Line2D.Double(getStartPoint(), getEndPoint());
+        
+    }
+    
+}

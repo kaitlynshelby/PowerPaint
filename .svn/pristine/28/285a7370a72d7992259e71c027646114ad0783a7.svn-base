@@ -1,0 +1,32 @@
+package shape;
+
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Shape;
+
+public interface PaintShape {
+    
+    void setDrawColor(Color theColor);
+    
+    void setFillColor(Color theColor);
+    
+    void setBrushWidth(float theWidth);
+    
+    void setFillState(boolean theFillState);
+    
+    void setStartPoint(Point thePoint);
+    
+    void setEndPoint(Point thePoint);
+
+    Shape getShape();
+
+    float getBrushWidth();
+
+    boolean getFillState();
+
+    Color getFillColor();
+
+    Color getDrawColor();
+    
+    PaintShape createNew();
+}

@@ -1,0 +1,35 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+
+package shape;
+
+import java.awt.Shape;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
+import java.awt.geom.Path2D.Float;
+
+/**
+ * The PowerPaint GUI.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ */
+public class Pencil extends AbstractPaintShape {
+
+    public Pencil() {
+        super();
+        myBasicShape = new GeneralPath(Path2D.WIND_EVEN_ODD);
+    }
+
+    public PaintShape createNew() {
+        return new Pencil();
+    }
+
+    public Shape getShape() {
+        ((Float) myBasicShape).moveTo(myStartPoint.getX(), myStartPoint.getY());
+        ((Float) myBasicShape).lineTo(myEndPoint.getX(), myEndPoint.getY());
+        setStartPoint(myEndPoint);
+
+        return myBasicShape;
+    }
+}

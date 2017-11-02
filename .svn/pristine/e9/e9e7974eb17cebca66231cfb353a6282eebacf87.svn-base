@@ -1,0 +1,91 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JMenuBar;
+import javax.swing.JToolBar;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+/**
+ * The PowerPaint GUI.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.1
+ */
+public class PowerPaintGUI extends JFrame {
+
+    /** The default size of the frame. */
+    private static final Dimension DEFAULT_SIZE = new Dimension(600, 300);
+    
+    /** The icon for this JFrame. */
+    private static final ImageIcon ICON = new ImageIcon("paint-brush-icon.png");
+    
+    /** A generated serial number. */
+    private static final long serialVersionUID = -6432464878129969525L;
+
+    /** Constructs the GUI. */
+    public PowerPaintGUI() {
+        super("PowerPaint");
+   
+        setIconImage(ICON.getImage());
+        
+        setSize(DEFAULT_SIZE);
+        
+        final JToolBar toolbar = new ToolBar();
+        add(toolbar, BorderLayout.SOUTH);
+        
+        final JMenuBar menuBar = new MenuBar(this);
+        setJMenuBar(menuBar);
+     
+        add(new DrawingPanel(), BorderLayout.CENTER);
+       
+        setLookAndFeel();
+        
+        pack();
+      
+    }
+    
+    /**
+     * Sets the look and feel for this GUI.
+     */
+    private void setLookAndFeel() {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        } catch (final ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (final InstantiationException e) {
+            e.printStackTrace();
+        } catch (final IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (final UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+    }
+    
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+    
+
+        
+    
+
+}

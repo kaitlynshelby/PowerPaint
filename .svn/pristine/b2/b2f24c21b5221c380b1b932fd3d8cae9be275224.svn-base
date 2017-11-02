@@ -1,0 +1,120 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Path2D;
+import java.util.ArrayList;
+import java.util.List;
+import java.awt.Cursor;
+
+import javax.swing.JPanel;
+
+/**
+ * @author Kaitlyn
+ *
+ */
+public class DrawingPanel extends JPanel {
+    
+    private static final Color INITIAL_DRAW_COLOR = new Color(51, 0, 111);
+    
+    private static final Color INITIAL_FILL_COLOR = new Color(232, 211, 162);
+    
+    private static final BasicStroke INITIAL_STROKE = new BasicStroke(1);
+    
+    private static final Dimension PREFERRED_SIZE = new Dimension(600, 300);
+    
+    private Color myDrawColor;
+    
+    private Color myFillColor;
+
+    private Stroke myBasicStroke;
+    
+    private List<Shape> shapes = new ArrayList<Shape> ();
+    
+    private Shape currentShape = null;
+    
+    
+    
+    public DrawingPanel() {
+        myDrawColor = INITIAL_DRAW_COLOR;
+        myFillColor = INITIAL_FILL_COLOR;
+        myBasicStroke = INITIAL_STROKE;
+        setPreferredSize(PREFERRED_SIZE);
+        setBackground(Color.WHITE);
+       
+        aMouseListener listener = new aMouseListener();
+        addMouseListener(listener);
+        addMouseMotionListener(listener);
+    }
+    
+    @Override 
+    public void paintComponent(final Graphics theGraphics) {
+        super.paintComponent(theGraphics);
+        final Graphics2D g2d = (Graphics2D) theGraphics;
+        
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                             RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        g2d.setPaint(myDrawColor);
+        g2d.setStroke(myBasicStroke);
+        for (final Shape shape : shapes) {
+            g2d.draw(shape);
+        }
+    }
+    
+    private class aMouseListener extends MouseAdapter implements MouseListener,
+                                                                    MouseMotionListener {
+
+
+        
+        
+        @Override
+        public void mouseEntered(final MouseEvent theEvent) {
+            setCursor(Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR));
+            
+        }
+
+
+        @Override
+        public void mousePressed(final MouseEvent theEvent) {
+            currentShape = new Line2D.Double(theEvent.getPoint(), theEvent.getPoint());
+            shapes.add(currentShape);
+            repaint();
+        }
+        
+        @Override 
+        public void mouseDragged(final MouseEvent theEvent) {
+           
+            final Line2D shape = (Line2D) currentShape;
+            shape.setLine(shape.getP1(), theEvent.getPoint());
+            repaint();
+        }
+
+        @Override
+        public void mouseReleased(final MouseEvent theEvent) {
+            
+            repaint();
+        }
+        
+    }
+    
+
+    
+    
+}

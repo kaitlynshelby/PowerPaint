@@ -1,0 +1,57 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+package model;
+
+import java.awt.event.ActionEvent;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+
+import shape.PaintShape;
+import shape.Rectangle;
+import view.DrawingPanel;
+
+/**
+ * A listener which sets the current tool to a RectangleTool.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ *
+ */
+public class RectangleListener extends AbstractAction {
+
+
+    
+    /** A generated serial ID number. */
+    private static final long serialVersionUID = 4229258366835102081L;
+
+    /** The panel to change the current tool on. */
+    private final DrawingPanel myPanel;
+    
+
+    
+    /**
+     *  Constructs a RectangleListener with a RectangleTool to use and a DrawingPanel to use 
+     *  the RectangleTool on. Also implements synchronization of buttons which use this 
+     *  listener.
+     *
+     *  @param thePanel the DrawingPanel to change the tool on.
+     */
+    public RectangleListener(final String theName, final DrawingPanel thePanel) {
+        super(theName);
+        myPanel = thePanel;
+        
+        putValue(Action.SELECTED_KEY, true);
+    }
+    
+    /**
+     * Sets the current tool on the DrawingPanel to a RectangleTool.
+     */
+    @Override
+    public void actionPerformed(final ActionEvent theEvent) {
+        PaintShape rectangle = new Rectangle();
+        myPanel.setCurrentShape(rectangle);
+        
+    }
+    
+}

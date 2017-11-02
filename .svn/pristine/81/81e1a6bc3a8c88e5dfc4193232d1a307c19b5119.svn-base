@@ -1,0 +1,65 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+package tools;
+
+import java.awt.Point;
+
+/**
+ * An abstract paint tool.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ */
+public abstract class AbstractPaintTool implements PaintTool {
+
+    /** A point to start from that is outside of the GUI frame.*/
+    public static final Point NO_POINT = new Point(-50, -50);
+    
+    /** A starting point for the tool.*/
+    private Point myStartPoint;
+    
+    /** An ending point for the tool.*/
+    private Point myEndPoint;
+    
+    
+    /**
+     * Initializes a paint tool with a point outside the GUI.
+     */
+    public AbstractPaintTool() {
+        myStartPoint = NO_POINT;
+        myEndPoint = NO_POINT;
+    }
+    
+    /**
+     * Returns the tool's start point.
+     * 
+     * @return the start point.
+     */
+    public Point getStartPoint() {
+        return myStartPoint;
+    }
+    
+    
+    /**
+     * Returns a tool's end point.
+     * 
+     * @return the end point.
+     */
+    public Point getEndPoint() {
+        return myEndPoint;
+    }
+
+    @Override
+    public void setStartPoint(final Point thePoint) {
+        myStartPoint = thePoint;
+        myEndPoint = thePoint;
+    }
+
+
+    @Override
+    public void setEndPoint(final Point thePoint) {
+        myEndPoint = thePoint;
+
+    }
+
+}

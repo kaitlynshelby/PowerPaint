@@ -1,0 +1,254 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.Color;
+import java.awt.Event;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
+import javax.swing.JToggleButton;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+
+import model.ColorChangeAction;
+import model.EllipseListener;
+import model.LineListener;
+import model.PencilListener;
+import model.RectangleListener;
+
+
+
+
+/**
+ * @author Kaitlyn Kinerk
+ * @version 1.1
+ */
+public class MenuBar extends JMenuBar {
+
+    /** A generated serial number. */
+    private static final long serialVersionUID = -111659266189879540L;
+    
+    /** The major tick spacing for the brush size selector. */
+    private static final int SLIDER_MAJOR_TICK_SPACING = 5;
+    
+    /** The minor tick spacing for the brush size selector. */
+    private static final int SLIDER_MINOR_TICK_SPACING = 1;
+    
+    /** The initial draw color UW Purple. */
+    private static final Color UW_PURPLE = new Color(51, 0, 111);
+    
+    /** The initial fill color UW Gold. */
+    private static final Color UW_GOLD = new Color(232, 211, 162);
+    
+   /** The tool selector radio buttons. */
+    private List<JRadioButtonMenuItem> myButtons;
+    
+    /** The frame containing this menu bar. */
+    private final JFrame myFrame;
+    
+    /** The DrawingPanel this menu communicates with. */
+    private DrawingPanel myPanel;
+    
+    private List<AbstractAction> myToolActions;
+    
+   
+    
+    /** Constructs a PowerPaint menu bar. 
+     * 
+     * @param theFrame the parent frame for this menu bar.
+     */
+    public MenuBar(final JFrame theFrame, final DrawingPanel thePanel,
+                   final List<AbstractAction> theToolActions) {
+        super();
+        
+        myFrame = theFrame;
+        myPanel = thePanel;
+        
+        myToolActions = theToolActions;
+        
+        
+        add(createFileMenu());
+        add(createOptionMenu());
+        add(createToolMenu());
+        add(createHelpMenu());
+        
+    }
+
+    /** Creates the File menu. 
+     * 
+     * @return the completed file menu.
+     */
+    private JMenu createFileMenu() {
+        final JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        
+        // create clear button
+        final JMenuItem clear = new JMenuItem("Clear");
+        clear.setMnemonic(KeyEvent.VK_C);
+        clear.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                // clear
+            }   
+        });
+        
+        // create quit button
+        final JMenuItem quit = new JMenuItem("Quit");
+        quit.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                myFrame.dispatchEvent(new WindowEvent(myFrame, WindowEvent.WINDOW_CLOSING));
+            }
+            
+        });
+        quit.setMnemonic(KeyEvent.VK_Q);
+        
+        fileMenu.add(clear);
+        fileMenu.addSeparator();
+        fileMenu.add(quit);
+        
+        return fileMenu;
+       
+    }
+    
+    /**
+     * Creates the Option Menu. 
+     * 
+     * @return the completed Option menu.
+     */
+    private JMenu createOptionMenu() {
+        final JMenu optionMenu = new JMenu("Options");
+        optionMenu.setMnemonic(KeyEvent.VK_O);
+        
+        optionMenu.add(createBrushWidthSubmenu());
+        
+        final JMenuItem draw = new JMenuItem("Draw Color...");
+        draw.setMnemonic(KeyEvent.VK_D);
+        draw.addActionListener(new ColorChangeAction(draw, UW_PURPLE));
+        
+        final JMenuItem fill = new JMenuItem("Fill Color...");
+        fill.setMnemonic(KeyEvent.VK_F);
+        fill.addActionListener(new ColorChangeAction(fill, UW_GOLD));
+        
+        final JCheckBoxMenuItem checkFill = new JCheckBoxMenuItem("Fill");
+        checkFill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, Event.CTRL_MASK));
+        checkFill.addActionListener(new ActionListener () {
+
+            @Override
+            public void actionPerformed(ActionEvent theEvent) {
+                if (checkFill.isSelected()) {
+                    // set fill color to selected color
+                } else {
+                    // set fill color to null
+                }
+            }
+            
+        });
+        
+       
+        optionMenu.addSeparator();
+        optionMenu.add(draw);
+        optionMenu.add(fill);
+        optionMenu.addSeparator();
+        optionMenu.add(checkFill);
+        
+        return optionMenu;
+
+    }
+    
+
+    
+    /**
+     * Creates a submenu with a slider to select brush width.
+     * 
+     * @return the brush width submenu.
+     */
+    private JMenu createBrushWidthSubmenu() {
+        final JMenu menu = new JMenu("Thickness");
+        
+        final JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 0, 20, 1);
+        slider.setMajorTickSpacing(SLIDER_MAJOR_TICK_SPACING);
+        slider.setMinorTickSpacing(SLIDER_MINOR_TICK_SPACING);
+        slider.setPaintLabels(true);
+        slider.setPaintTicks(true);
+        
+        menu.add(slider);
+        menu.setMnemonic(KeyEvent.VK_T);
+        
+        return menu;
+    }
+    
+    /**
+     * Creates a completed Tool menu.
+     * 
+     * @return the completed Tool menu.
+     */
+    private JMenu createToolMenu() {
+        final JMenu toolMenu = new JMenu("Tools");
+        toolMenu.setMnemonic(KeyEvent.VK_T);
+        
+        final ButtonGroup btngrp = new ButtonGroup();
+     
+        
+        for (final AbstractAction actn : myToolActions) {
+            final JRadioButtonMenuItem btn = new JRadioButtonMenuItem(actn);
+            btn.addActionListener(actn);
+            btngrp.add(btn);
+            toolMenu.add(btn);
+        }
+        
+        btngrp.clearSelection();
+        btngrp.getElements().nextElement().setSelected(true);
+      
+        return toolMenu;
+    }
+    
+    
+    /**
+     * Creates a completed Help Menu.
+     * 
+     * @return the completed Help menu.
+     */
+    private JMenu createHelpMenu() {
+        final JMenu helpMenu = new JMenu("Help");
+        helpMenu.setMnemonic(KeyEvent.VK_H);
+        
+        final JMenuItem about = new JMenuItem("About...");
+        about.setMnemonic(KeyEvent.VK_A);
+        about.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                JOptionPane.showMessageDialog(myFrame, "TCSS 305 PowerPaint\nSpring 2016"
+                                + "\nKaitlyn Kinerk", "About",
+                                JOptionPane.PLAIN_MESSAGE, 
+                                new ImageIcon("paint-brush-icon.png"));
+                
+            }
+            
+        });
+        
+        helpMenu.add(about);
+        
+        return helpMenu;
+    }
+}

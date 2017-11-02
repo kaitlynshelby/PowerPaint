@@ -1,0 +1,65 @@
+/**
+ * 
+ */
+package view;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+
+import model.Ellipse;
+import model.Line;
+import model.Pencil;
+import model.Rectangle;
+
+/**
+ * A tool bar for the PowerPaint program.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.1
+ *
+ */
+public class ToolBar extends JToolBar { 
+
+
+    /** A generated serial number.*/
+    private static final long serialVersionUID = 304052708691137548L;
+    
+
+    /** A list of the buttons to add to the tool bar.*/
+    private final List<JToggleButton> myButtons;
+    
+    /** Constructs a tool bar. */
+    public ToolBar() {
+        super(); 
+        
+        final ButtonGroup btngrp = new ButtonGroup();
+        myButtons = new ArrayList<JToggleButton>();
+        
+        createButtons();
+        
+        for (final JToggleButton btn : myButtons) {
+            btngrp.add(btn);
+            add(btn);
+        }
+       
+        btngrp.clearSelection();
+    }
+    
+    /**
+     * Creates necessary buttons and adds them to myButtons.
+     */
+    private void createButtons() {
+
+        myButtons.add(new JToggleButton(new Pencil()));
+        myButtons.add(new JToggleButton(new Line()));
+        myButtons.add(new JToggleButton(new Rectangle()));
+        myButtons.add(new JToggleButton(new Ellipse()));
+       
+    }
+    
+
+}

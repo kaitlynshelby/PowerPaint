@@ -1,0 +1,45 @@
+/**
+ * 
+ */
+package model;
+
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+
+/**
+ * @author Kaitlyn
+ *
+ */
+public class Ellipse extends AbstractPaintShape {
+
+    @Override
+    public Shape getShape() {
+        Ellipse2D.Double rect = new Ellipse2D.Double(getStartPoint().getX(), 
+                                getStartPoint().getY(), getWidth(), getHeight());
+    
+        if (getEndPoint().getX() < getStartPoint().getX() && getEndPoint().getY() 
+                       < getStartPoint().getY()) {
+            rect = new Ellipse2D.Double(getEndPoint().getX(), getEndPoint().getY(), 
+                                          getWidth(), getHeight());
+        } else if (getEndPoint().getX() < getStartPoint().getX()) {
+            rect = new Ellipse2D.Double(getEndPoint().getX(), getStartPoint().getY(), 
+                                          getWidth(), getHeight());
+        } else if (getEndPoint().getY() < getStartPoint().getY()) {
+            rect = new Ellipse2D.Double(getStartPoint().getX(), getEndPoint().getY(), 
+                                          getWidth(), getHeight());
+        }
+        return rect;
+    }
+    
+    private double getWidth() {
+        return Math.abs(getEndPoint().getX() - getStartPoint().getX());
+    }
+    
+    private double getHeight() {
+        return Math.abs(getEndPoint().getY() - getStartPoint().getY());
+    }
+
+}
+
+

@@ -1,0 +1,39 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+
+/**
+ * Driver class for PowerPaint.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.1
+ */
+public final class PowerPaintMain {
+    
+    /** Private constructor to inhibit instantiation. */
+    private PowerPaintMain() {
+        
+    }
+   
+
+    /**
+     * @param theArgs command line arguments; ignored.
+     */
+    public static void main(final String...theArgs) {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                final PowerPaintGUI toolbarFrame = new PowerPaintGUI();
+                toolbarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                toolbarFrame.setLocationRelativeTo(null);
+                toolbarFrame.setVisible(true);
+            }
+        });
+    }
+
+}

@@ -1,0 +1,248 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Event;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSlider;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import model.DrawingPanel;
+
+
+
+
+/**
+ * @author Kaitlyn
+ *
+ */
+public class PowerPaintGUI extends JFrame {
+
+    /** The default width of the frame. */
+    public static final int DEFAULT_WIDTH = 600;
+
+    /** The default height of the frame. */
+    public static final int DEFAULT_HEIGHT = 300;
+    
+    /** A generated serialization ID. */
+    private static final long serialVersionUID = -4447570618384470786L;
+
+    /** The drawing panel used inside the frame. */
+    private final DrawingPanel myPanel;
+    
+    /** A list of color actions. */
+    private List<ToolAction> myToolActions;
+
+    private AbstractAction myExitAction;
+
+    public PowerPaintGUI() {
+        super("PowerPaint");
+        
+        
+        setupActions();
+        
+        final JToolBar toolbar = createToolbar();
+        add(toolbar, BorderLayout.SOUTH);
+        
+        myPanel = new DrawingPanel();
+        add(myPanel, BorderLayout.CENTER);
+        
+        setJMenuBar(createMenu());
+       
+        pack();
+        
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void setupActions() {
+        myToolActions = new ArrayList<ToolAction>();
+        
+        myToolActions.add(new ToolAction("Pencil"));
+        myToolActions.add(new ToolAction("Line"));
+        myToolActions.add(new ToolAction("Rectangle"));
+        myToolActions.add(new ToolAction("Ellipse"));
+        
+        myExitAction = new AbstractAction("Quit") {
+
+            @Override
+            public void actionPerformed(final ActionEvent theEvent) {
+                dispose(); 
+            }
+        };
+        
+        myExitAction.putValue(Action.ACCELERATOR_KEY,
+                              KeyStroke.getKeyStroke('Q',
+                                                     java.awt.event.InputEvent.CTRL_MASK));
+    }
+    
+    
+    private JMenuBar createMenu() {
+        final JMenuBar menuBar = new JMenuBar();
+        
+        final JMenu fileMenu = new JMenu("File");
+        fileMenu.setMnemonic(KeyEvent.VK_F);
+        final JMenu optionMenu = new JMenu("Options");
+        optionMenu.setMnemonic(KeyEvent.VK_O);
+        final JMenu toolMenu = new JMenu("Tools");
+        toolMenu.setMnemonic(KeyEvent.VK_T);
+        final JMenu helpMenu = new JMenu("Help");
+        helpMenu.setMnemonic(KeyEvent.VK_H);
+        
+        // add file menu
+        menuBar.add(fileMenu);
+        fileMenu.add("Clear");
+        fileMenu.addSeparator();
+        fileMenu.add(myExitAction);
+        
+        // add option menu
+        final JMenu thickness = new JMenu("Thickness");
+        
+        final JSlider slider = new JSlider(SwingConstants.HORIZONTAL, 0, 20, 1);
+        slider.setMajorTickSpacing(5);
+        slider.setMinorTickSpacing(1);
+        slider.setPaintLabels(true);
+        slider.setPaintTicks(true);
+        
+        thickness.add(slider);
+        thickness.setMnemonic(KeyEvent.VK_T);
+        
+        optionMenu.add(thickness);
+        optionMenu.addSeparator();
+        
+        JMenuItem draw = new JMenuItem("Draw Color");
+        draw.setMnemonic(KeyEvent.VK_D);
+        optionMenu.add(draw);
+        JMenuItem fill = new JMenuItem("Fill Color");
+        fill.setMnemonic(KeyEvent.VK_F);
+        optionMenu.add(fill);
+        optionMenu.addSeparator();
+        
+        JCheckBoxMenuItem checkFill = new JCheckBoxMenuItem("Fill");
+        checkFill.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, Event.CTRL_MASK));
+        optionMenu.add(checkFill);
+        
+        menuBar.add(optionMenu);
+        
+       
+        // add tool menu
+        final ButtonGroup buttons = new ButtonGroup();
+        
+        for (final ToolAction ta : myToolActions) {
+            final JRadioButtonMenuItem button = new JRadioButtonMenuItem(ta);
+            buttons.add(button);
+            toolMenu.add(button);
+        }
+        menuBar.add(toolMenu);
+ 
+        // add help menu
+        JMenuItem about = new JMenuItem("About");
+        about.setMnemonic(KeyEvent.VK_A);
+        helpMenu.add(about);
+        menuBar.add(helpMenu);
+        
+      
+        
+        return menuBar;
+    }
+
+
+
+
+    private JToolBar createToolbar() {
+        final JToolBar toolbar = new JToolBar();
+        final ButtonGroup buttons = new ButtonGroup();
+        
+        for (final ToolAction ta : myToolActions) {
+            final JToggleButton tb = new JToggleButton(ta);
+            buttons.add(tb);
+            toolbar.add(tb);
+        }
+        
+        buttons.clearSelection();
+        
+        return toolbar;
+    }
+
+
+
+
+    /**
+     * @param args
+     */
+    public static void main(final String...theArgs) {
+        EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                final PowerPaintGUI toolbarFrame = new PowerPaintGUI();
+                toolbarFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                toolbarFrame.setLocationRelativeTo(null);
+                toolbarFrame.setVisible(true);
+            }
+        });
+    }
+    
+    private class ToolAction extends AbstractAction {
+        
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
+
+
+
+        ToolAction(final String theName) {
+            super(theName);
+            
+            putValue(Action.MNEMONIC_KEY,
+                     KeyEvent.getExtendedKeyCodeForChar(theName.charAt(0)));
+        }
+        
+
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            // TODO Auto-generated method stub
+            
+        }
+    }
+        
+    
+
+}

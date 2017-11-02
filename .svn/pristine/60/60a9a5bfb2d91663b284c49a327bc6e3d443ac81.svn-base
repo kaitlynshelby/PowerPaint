@@ -1,0 +1,47 @@
+/**
+ * 
+ */
+package tools;
+
+import java.awt.Point;
+
+/**
+ * @author Kaitlyn 
+ *
+ */
+public abstract class AbstractPaintShape implements PaintTool {
+
+    public static final Point NO_POINT = new Point(-50, -50);
+    
+    private Point myStartPoint;
+    
+    private Point myEndPoint;
+    
+    public AbstractPaintShape() {
+        myStartPoint = NO_POINT;
+        myEndPoint = NO_POINT;
+    }
+    
+    
+    public Point getStartPoint() {
+        return myStartPoint;
+    }
+    
+    public Point getEndPoint() {
+        return myEndPoint;
+    }
+
+    @Override
+    public void setStartPoint(Point thePoint) {
+        myStartPoint = thePoint;
+        myEndPoint = thePoint;
+    }
+
+
+    @Override
+    public void setEndPoint(Point thePoint) {
+        myEndPoint = thePoint;
+
+    }
+
+}

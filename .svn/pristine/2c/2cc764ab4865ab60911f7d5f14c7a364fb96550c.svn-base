@@ -1,0 +1,20 @@
+/**
+ * 
+ */
+package model;
+
+import java.awt.event.ActionEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.Action;
+
+/**
+ * @author Kaitlyn
+ *
+ */
+public interface PaintShape extends Action{
+
+   
+        
+
+}

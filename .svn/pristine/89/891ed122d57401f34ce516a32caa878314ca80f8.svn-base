@@ -1,0 +1,41 @@
+// TCSS 305 - Spring 2016
+// Assignment 5 - PowerPaint
+
+package shape;
+
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Shape;
+
+/**
+ * The PowerPaint GUI.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.0
+ */
+public interface PaintShape {
+
+    void setDrawColor(Color theColor);
+
+    void setFillColor(Color theColor);
+
+    void setBrushWidth(float theWidth);
+
+    void setFillState(boolean theFillState);
+
+    void setStartPoint(Point thePoint);
+
+    void setEndPoint(Point thePoint);
+
+    Shape getShape();
+
+    float getBrushWidth();
+
+    boolean isFilled();
+
+    Color getFillColor();
+
+    Color getDrawColor();
+
+    PaintShape createNew();
+}

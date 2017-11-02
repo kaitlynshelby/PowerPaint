@@ -1,0 +1,131 @@
+/**
+ * 
+ */
+package view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+
+import javax.swing.AbstractAction;
+import javax.swing.ButtonGroup;
+import javax.swing.JToggleButton;
+import javax.swing.JToolBar;
+
+import model.Ellipse;
+import model.Line;
+import model.Pencil;
+import model.Rectangle;
+
+
+
+/**
+ * A tool bar for the PowerPaint program.
+ * 
+ * @author Kaitlyn Kinerk
+ * @version 1.1
+ *
+ */
+public class ToolBar extends JToolBar { 
+
+
+    /** A generated serial number.*/
+    private static final long serialVersionUID = 304052708691137548L;
+                    
+    private DrawingPanel myPanel;
+    
+    private Pencil myPencil;
+    
+    private Line myLine;
+    
+    private Rectangle myRectangle;
+    
+    private Ellipse myEllipse;
+    
+    /** Constructs a tool bar. */
+    public ToolBar(DrawingPanel thePanel) {
+        super(); 
+        
+        myPanel = thePanel;
+        myPencil = new Pencil();
+        myLine = new Line();
+        myRectangle = new Rectangle();
+        myEllipse = new Ellipse();
+        
+        final ButtonGroup btngrp = new ButtonGroup();
+        
+        JToggleButton pencil = new JToggleButton("Pencil");
+        pencil.addActionListener(new PencilListener());
+        btngrp.add(pencil);
+        add(pencil);
+        
+        JToggleButton line = new JToggleButton("Line");
+        line.addActionListener(new LineListener());
+        btngrp.add(line);
+        add(line);
+        
+        JToggleButton rectangle = new JToggleButton("Rectangle");
+        rectangle.addActionListener(new RectangleListener());
+        btngrp.add(rectangle);
+        add(rectangle);
+        
+        JToggleButton ellipse = new JToggleButton("Ellipse");
+        ellipse.addActionListener(new EllipseListener());
+        btngrp.add(ellipse);
+        add(ellipse);
+       
+        btngrp.clearSelection();
+        pencil.setSelected(true);
+        
+        myPanel.setCurrentShape(myPencil);
+        
+    }
+    
+
+    
+
+    private class PencilListener extends AbstractAction {
+
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            myPanel.setCurrentShape(myPencil);
+            
+        }
+        
+    }
+    
+    private class LineListener implements ActionListener {
+
+       
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            myPanel.setCurrentShape(myLine);
+            
+        }
+        
+    }
+    
+    private class RectangleListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            myPanel.setCurrentShape(myRectangle);
+            
+        }
+        
+    }
+    
+    private class EllipseListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            myPanel.setCurrentShape(myEllipse);
+            
+        }
+        
+    }
+   
+
+}
